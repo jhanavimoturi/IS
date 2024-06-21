@@ -1,5 +1,34 @@
 import random
 
+p, g = 23, 5  
+
+def gen_key_pair(p):
+    private = random.randint(1, p - 1)
+    public = pow(g, private, p)
+    return private, public
+
+def gen_shared_secret(public, private, p):
+    return pow(public, private, p)
+
+alice_private, alice_public = gen_key_pair(p)
+bob_private, bob_public = gen_key_pair(p)
+
+
+alice_secret = gen_shared_secret(bob_public, alice_private, p)
+bob_secret = gen_shared_secret(alice_public, bob_private, p)
+
+print("Shared secret:", alice_secret)
+assert alice_secret == bob_secret
+
+
+
+
+or
+
+
+
+import random
+
 def generate_private_key(p):
     return random.randint(2, p-2)
 
@@ -31,4 +60,6 @@ bob_shared_secret = compute_shared_secret(alice_public_key, bob_private_key, p)
 print(f"Alice's Shared Secret: {alice_shared_secret}")
 print(f"Bob's Shared Secret: {bob_shared_secret}")
 assert alice_shared_secret == bob_shared_secret, "Shared secrets do not match!"
+
+
 
